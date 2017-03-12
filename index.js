@@ -21,7 +21,7 @@ const tempRoot    = os.tmpdir()
 const workingPath = 'distilla_' + uuid.v4()
 const defaults    = {
   'target-branch': 'gh-pages',
-  'commit-msg':    'updated build',
+  'commit-msg':    'updated build from %b %h',
   remote:          'origin',
   preview:         false,
   hashing:         null
