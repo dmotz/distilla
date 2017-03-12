@@ -83,7 +83,7 @@ const finale = () => {
     const [, oPath] = getPaths(splitPair(task)[1])
     child.execSync('git add ' + oPath)
   })
-  child.execSync(`git commit -m "${config['commit-msg']}"`)
+  child.execSync(`git commit -m "${commitMsg}"`)
   child.execSync(`git push ${config.remote} ${config['target-branch']}`, {stdio: 'inherit'})
   process.chdir(startDir)
   child.execSync(`git fetch ${config.remote} ${targetBranch}:${targetBranch}`, {stdio: 'inherit'})
@@ -95,6 +95,7 @@ const finale = () => {
 let tempCreated = false
 let raw
 let config
+let commitMsg
 
 try {
   raw = fs.readFileSync('.distilla', 'utf8')
@@ -143,6 +144,20 @@ if (fs.existsSync('package.json')) {
     child.execSync('rm -rf node_modules')
   }
   child.execSync('npm install', {stdio: 'ignore'})
+}
+
+commitMsg = config['commit-msg']
+
+if (commitMsg.includes('%b')) {
+  commitMsg = commitMsg.replace('%b', child.execSync('git rev-parse --abbrev-ref HEAD').toString().trim())
+}
+
+if (commitMsg.includes('%h')) {
+  commitMsg = commitMsg.replace('%h', child.execSync('git rev-parse HEAD').toString().trim())
+}
+
+if (commitMsg.includes('%m')) {
+  commitMsg = commitMsg.replace('%m', child.execSync('git log -1 --pretty=%B').toString().trim())
 }
 
 config.tasks.forEach(task => {
