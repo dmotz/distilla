@@ -91,8 +91,8 @@ const confirmationPrompt = cb => {
 }
 
 const finale = () => {
-  config.tasks.forEach(task => {
-    const [, oPath] = getPaths(splitPair(task)[1])
+  Object.values(config.tasks).forEach(val => {
+    const [, oPath] = getPaths(val)
     child.execSync('git add ' + oPath)
   })
   child.execSync(`git commit -m "${commitMsg}"`)
@@ -122,7 +122,7 @@ try {
 
 config = Object.assign({}, defaults, config)
 
-if (!config.tasks || !config.tasks.length) {
+if (!config.tasks || !Object.keys(config.tasks).length) {
   die('No tasks are specified in .distilla')
 }
 
@@ -166,9 +166,7 @@ const commitMsg = Object.keys(msgTokens).reduce((a, k) => {
 
 }, config['commit-msg'])
 
-config.tasks.forEach(task => {
-  const [cmd, val] = splitPair(task)
-
+Object.entries(config.tasks).forEach(([cmd, val]) => {
   let [iPath, oPath] = getPaths(val)
   let proc
 
@@ -198,8 +196,7 @@ process.chdir('..')
 process.chdir(buildPath)
 
 if (config.hashing) {
-  config.hashing.forEach(task => {
-    const [htmlPath, assets] = splitPair(task)
+  Object.entries(config.hashing).forEach(([htmlPath, assets]) => {
     let html
 
     try {
