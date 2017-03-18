@@ -50,11 +50,6 @@ const die = (msg, e) => {
   process.exit(1)
 }
 
-const splitPair = o => {
-  const [key] = Object.keys(o)
-  return [key, o[key]]
-}
-
 const getPaths = val =>
   Array.isArray(val)
   ? val.length === 1
