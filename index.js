@@ -91,6 +91,9 @@ const finale = () => {
     const [, oPath] = getPaths(val)
     child.execSync('git add ' + oPath)
   })
+
+  Object.keys(config.hashing).forEach(path => child.execSync('git add ' + path))
+
   try {
     child.execSync(`git commit -m "${commitMsg}"`)
   } catch (e) {
