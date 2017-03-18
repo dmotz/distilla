@@ -16,9 +16,10 @@ const cheerio  = require('cheerio')
 const {argv}   = require('yargs').version()
 
 
+const appName     = 'distilla'
 const startDir    = process.cwd()
 const tempRoot    = os.tmpdir()
-const workingPath = 'distilla_' + uuid.v4()
+const workingPath = `${appName}_${uuid.v4()}`
 
 const msgTokens = {
   hash:    '%h',
@@ -113,21 +114,21 @@ let raw
 let config
 
 try {
-  raw = fs.readFileSync('.distilla', 'utf8')
+  raw = fs.readFileSync('.' + appName, 'utf8')
 } catch (e) {
-  die('Could not find .distilla config file')
+  die(`Could not find .${appName} config file`)
 }
 
 try {
   config = yaml.safeLoad(raw)
 } catch (e) {
-  die('Could not parse .distilla yaml', e)
+  die(`Could not parse .${appName} yaml`, e)
 }
 
 config = Object.assign({}, defaults, config)
 
 if (!config.tasks || !Object.keys(config.tasks).length) {
-  die('No tasks are specified in .distilla')
+  die(`No tasks are specified in .${appName}`)
 }
 
 const targetBranch = config['target-branch']
