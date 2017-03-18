@@ -119,10 +119,18 @@ try {
   die(`Could not find .${appName} config file`)
 }
 
-try {
-  config = yaml.safeLoad(raw)
-} catch (e) {
-  die(`Could not parse .${appName} yaml`, e)
+if (raw.trim()[0] === '{') {
+  try {
+    config = JSON.parse(raw)
+  } catch (e) {
+    die(`Could not parse .${appName} as json`, e)
+  }
+} else {
+  try {
+    config = yaml.safeLoad(raw)
+  } catch (e) {
+    die(`Could not parse .${appName} as yaml`, e)
+  }
 }
 
 config = Object.assign({}, defaults, config)
