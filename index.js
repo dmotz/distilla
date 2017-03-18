@@ -37,7 +37,7 @@ const defaults = {
   'commit-msg':    `updated build from ${msgTokens.branch} ${msgTokens.hash}`,
   remote:          'origin',
   preview:         false,
-  hashing:         null
+  hashing:         {}
 }
 
 const die = (msg, e) => {
@@ -195,7 +195,7 @@ Object.entries(config.tasks).forEach(([cmd, val]) => {
 process.chdir('..')
 process.chdir(buildPath)
 
-if (config.hashing) {
+if (Object.keys(config.hashing).length) {
   Object.entries(config.hashing).forEach(([htmlPath, assets]) => {
     let html
 
