@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Distill a derived branch with no mess. Good for gh-pages.",
   "main": "index.js",
+  "bin": {
+    "distilla" : "./index.js"
+  },
   "author": {
     "name": "Dan Motzenbecker",
     "email": "dan@oxism.com",
