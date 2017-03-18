@@ -1,7 +1,7 @@
 {
   "name": "distilla",
   "version": "0.0.1",
-  "description": "Distill a derived branch with no mess. Good for gh-pages.",
+  "description": "Distill a derived branch build with no mess. Designed for gh-pages.",
   "main": "index.js",
   "bin": {
     "distilla" : "./index.js"
