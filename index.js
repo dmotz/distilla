@@ -13,6 +13,7 @@ const chalk    = require('chalk')
 const SServer  = require('static-server')
 const getPort  = require('getport')
 const cheerio  = require('cheerio')
+const {argv}   = require('yargs').version()
 
 
 const startDir    = process.cwd()
