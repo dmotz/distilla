@@ -104,6 +104,7 @@ const finale = () => {
   child.execSync(`git fetch ${config.remote} ${targetBranch}:${targetBranch}`, {stdio: 'inherit'})
   cleanUp()
   console.log(chalk.green('Complete'))
+  process.exit(0)
 }
 
 
