@@ -19,9 +19,21 @@ const cheerio  = require('cheerio')
 const startDir    = process.cwd()
 const tempRoot    = os.tmpdir()
 const workingPath = 'distilla_' + uuid.v4()
+const msgTokens   = {
+  hash:    '%h',
+  branch:  '%b',
+  message: '%m'
+}
+
+const tokenTasks  = {
+  hash:    'git rev-parse HEAD',
+  branch:  'git rev-parse --abbrev-ref HEAD',
+  message: 'git log -1 --pretty=%B'
+}
+
 const defaults    = {
   'target-branch': 'gh-pages',
-  'commit-msg':    'updated build from %b %h',
+  'commit-msg':    `updated build from ${msgTokens.branch} ${msgTokens.hash}`,
   remote:          'origin',
   preview:         false,
   hashing:         null
@@ -95,7 +107,6 @@ const finale = () => {
 let tempCreated = false
 let raw
 let config
-let commitMsg
 
 try {
   raw = fs.readFileSync('.distilla', 'utf8')
@@ -146,19 +157,14 @@ if (fs.existsSync('package.json')) {
   child.execSync('npm install', {stdio: 'ignore'})
 }
 
-commitMsg = config['commit-msg']
+const commitMsg = Object.keys(msgTokens).reduce((a, k) => {
+  const token = msgTokens[k]
 
-if (commitMsg.includes('%b')) {
-  commitMsg = commitMsg.replace('%b', child.execSync('git rev-parse --abbrev-ref HEAD').toString().trim())
-}
+  return a.includes(token)
+    ? a.replace(token, child.execSync(tokenTasks[k]).toString().trim())
+    : a
 
-if (commitMsg.includes('%h')) {
-  commitMsg = commitMsg.replace('%h', child.execSync('git rev-parse HEAD').toString().trim())
-}
-
-if (commitMsg.includes('%m')) {
-  commitMsg = commitMsg.replace('%m', child.execSync('git log -1 --pretty=%B').toString().trim())
-}
+}, config['commit-msg'])
 
 config.tasks.forEach(task => {
   const [cmd, val] = splitPair(task)
