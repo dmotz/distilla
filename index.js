@@ -222,11 +222,13 @@ if (Object.keys(config.hashing).length) {
 
     assets.forEach(assetPath => {
       const isScript = assetPath.endsWith('.js')
+      const tag      = isScript ? 'script' : 'link'
+      const attr     = isScript ? 'src'    : 'href'
 
-      let match = $((isScript ? 'script[src' : 'link[href') + `^='${assetPath}']`)
+      let match = $(`${tag}[${attr}^='${assetPath}']`)
 
       if (!match || !match[0]) {
-        die(`Could not find ${isScript ? 'script' : 'link'} tag referencing '${assetPath}' in ${htmlPath}`)
+        die(`Could not find ${tag} tag referencing '${assetPath}' in ${htmlPath}`)
       }
 
       if (!fs.existsSync(assetPath)) {
@@ -234,7 +236,7 @@ if (Object.keys(config.hashing).length) {
       }
 
       $(match[0]).attr(
-        isScript ? 'src' : 'href',
+        attr,
         assetPath + '?' + crypto.createHash('sha1').update(fs.readFileSync(assetPath)).digest('hex')
       )
     })
