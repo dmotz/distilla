@@ -19,19 +19,20 @@ const cheerio  = require('cheerio')
 const startDir    = process.cwd()
 const tempRoot    = os.tmpdir()
 const workingPath = 'distilla_' + uuid.v4()
-const msgTokens   = {
+
+const msgTokens = {
   hash:    '%h',
   branch:  '%b',
   message: '%m'
 }
 
-const tokenTasks  = {
+const tokenTasks = {
   hash:    'git rev-parse HEAD',
   branch:  'git rev-parse --abbrev-ref HEAD',
   message: 'git log -1 --pretty=%B'
 }
 
-const defaults    = {
+const defaults = {
   'target-branch': 'gh-pages',
   'commit-msg':    `updated build from ${msgTokens.branch} ${msgTokens.hash}`,
   remote:          'origin',
@@ -90,7 +91,11 @@ const finale = () => {
     const [, oPath] = getPaths(val)
     child.execSync('git add ' + oPath)
   })
-  child.execSync(`git commit -m "${commitMsg}"`)
+  try {
+    child.execSync(`git commit -m "${commitMsg}"`)
+  } catch (e) {
+    die('No changes to commit in build output, aborting push.')
+  }
   child.execSync(`git push ${config.remote} ${config['target-branch']}`, {stdio: 'inherit'})
   process.chdir(startDir)
   child.execSync(`git fetch ${config.remote} ${targetBranch}:${targetBranch}`, {stdio: 'inherit'})
