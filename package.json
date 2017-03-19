@@ -4,7 +4,7 @@
   "description": "Distill a derived branch build with no mess. Designed for gh-pages.",
   "main": "index.js",
   "bin": {
-    "distilla" : "./index.js"
+    "distilla": "./index.js"
   },
   "author": {
     "name": "Dan Motzenbecker",
@@ -17,8 +17,8 @@
     "cheerio": "^0.22.0",
     "getport": "^0.1.0",
     "js-yaml": "^3.8.1",
-    "node-uuid": "^1.4.7",
     "static-server": "^2.0.4",
+    "uuid": "^3.0.1",
     "yargs": "^7.0.2"
   }
 }

@@ -6,7 +6,7 @@ const path     = require('path')
 const child    = require('child_process')
 const readline = require('readline')
 const crypto   = require('crypto')
-const uuid     = require('node-uuid')
+const uuid     = require('uuid/v4')
 const yargs    = require('yargs')
 const yaml     = require('js-yaml')
 const chalk    = require('chalk')
@@ -19,7 +19,7 @@ const {argv}   = require('yargs').version()
 const appName     = 'distilla'
 const startDir    = process.cwd()
 const tempRoot    = os.tmpdir()
-const workingPath = `${appName}_${uuid.v4()}`
+const workingPath = `${appName}_${uuid()}`
 
 const msgTokens = {
   hash:    '%h',
