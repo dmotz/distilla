@@ -20,5 +20,9 @@
     "static-server": "^2.0.4",
     "uuid": "^3.0.1",
     "yargs": "^7.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dmotz/distilla.git"
   }
 }
