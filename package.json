@@ -23,6 +23,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/dmotz/distilla.git"
+    "url": "git+https://github.com/dmotz/distilla.git"
   }
 }
