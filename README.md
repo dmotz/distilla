@@ -38,7 +38,7 @@ Now with Distilla:
 
 
 Behind the scenes Distilla creates temporary copies of your repo and performs
-some surgery to commit the desired output without manual finagling.
+some surgery to commit the desired output without manual tedium.
 
 
 ## Install
