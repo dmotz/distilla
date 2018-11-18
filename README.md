@@ -1,4 +1,4 @@
-# Distilla
+# Distilla ⚗️
 #### Distill a derived branch build with no mess. Designed for `gh-pages`.
 ---
 
