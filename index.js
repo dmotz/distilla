@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+require('yargs').version().argv
+
 const fs = require('fs')
 const os = require('os')
 const path = require('path')
@@ -12,7 +14,6 @@ const chalk = require('chalk')
 const SServer = require('static-server')
 const getPort = require('getport')
 const cheerio = require('cheerio')
-const {argv} = require('yargs').version()
 
 const appName = 'distilla'
 const startDir = process.cwd()
@@ -181,7 +182,7 @@ const commitMsg = Object.keys(msgTokens).reduce((a, k) => {
 }, config['commit-msg'])
 
 Object.entries(config.tasks).forEach(([cmd, val]) => {
-  let [iPath, oPath] = getPaths(val)
+  const [iPath, oPath] = getPaths(val)
   let proc
 
   console.log(`${cmd} ${chalk.green('->')} ${oPath}`)
@@ -225,8 +226,7 @@ if (Object.keys(config.hashing).length) {
       const isScript = assetPath.endsWith('.js')
       const tag = isScript ? 'script' : 'link'
       const attr = isScript ? 'src' : 'href'
-
-      let match = $(`${tag}[${attr}^='${assetPath}']`)
+      const match = $(`${tag}[${attr}^='${assetPath}']`)
 
       if (!match || !match[0]) {
         die(
